@@ -69,7 +69,6 @@ class Hall {
 
     // Book a seat
     public void bookSeat() {
-        System.out.println("\n++ 2. Book ++");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter row number (1-" + rows + "): ");
         int row = scanner.nextInt() - 1;
@@ -95,7 +94,6 @@ class Hall {
 
     // Cancel a booking
     public void cancelBooking() {
-        System.out.println("\n++ 3. Cancel Booking ++");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter row number (1-" + rows + "): ");
         int row = scanner.nextInt() - 1;
@@ -120,7 +118,6 @@ class Hall {
 
     // View booking history along with current cinema layout
     public void viewBookingHistory() {
-        System.out.println("\n++ 4. View Booking History ++");
         System.out.println("\nCurrent Cinema Layout with Booking History:");
         if (bookingHistory.isEmpty()) {
             System.out.println("No bookings made yet.");
@@ -169,7 +166,6 @@ public class CinemaBooking {
 
             switch (choice) {
                 case 1:
-                    System.out.println("\n++ 1. Set Up Cinema ++");
                     System.out.print("Enter number of rows: ");
                     int rows = scanner.nextInt();
                     System.out.print("Enter number of columns: ");
