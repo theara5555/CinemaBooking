@@ -70,25 +70,32 @@ class Hall {
     // Book a seat
     public void bookSeat() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter row number (1-" + rows + "): ");
-        int row = scanner.nextInt() - 1;
-        System.out.print("Enter column letter (A-" + (char) ('A' + cols - 1) + "): ");
-        char colChar = scanner.next().toUpperCase().charAt(0);
-        int col = colChar - 'A';
 
-        if (isValidSeat(row, col)) {
-            if (seats[row][col].endsWith("AV")) {
-                seats[row][col] = colChar + "-" + (row + 1) + ": BK";
-                String seatNumber = colChar + "-" + (row + 1);
-                String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                bookingHistory.add(new Booking(seatNumber, dateTime));
+        System.out.print("Enter seat to book (e.g., a-1,b-1): ");
+        String seatNumbersInput = scanner.nextLine().toLowerCase();
+        String[] seatNumbers = seatNumbersInput.split(",");
 
-                System.out.println("Seat " + seatNumber + " booked successfully!");
+        for (String seat : seatNumbers) {
+            String[] parts = seat.split("-");
+            String rowCheck = parts[0];
+            String colCheck = parts[1];
+
+            int row = rowCheck.charAt(0) - 'a';
+            int col = Integer.parseInt(colCheck) - 1;
+
+            if (isValidSeat(row, col)) {
+                if (seats[row][col].endsWith("AV")) {
+                    seats[row][col] = rowCheck + "-" + (col + 1) + ": BK";
+                    String seatNumber = rowCheck + "-" + (col + 1);
+                    String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    bookingHistory.add(new Booking(seatNumber, dateTime));
+                    System.out.println("Seat " + seatNumber + " booked successfully!");
+                } else {
+                    System.out.println("Seat " + seat + " is already booked.");
+                }
             } else {
-                System.out.println("Seat is already booked.");
+                System.out.println("Invalid seat selection: " + seat);
             }
-        } else {
-            System.out.println("Invalid seat selection.");
         }
     }
 
@@ -166,11 +173,15 @@ public class CinemaBooking {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter number of rows: ");
-                    int rows = scanner.nextInt();
-                    System.out.print("Enter number of columns: ");
-                    int cols = scanner.nextInt();
-                    hall = new Hall(rows, cols);
+                    if(hall == null) {
+                        System.out.print("Enter number of rows: ");
+                        int rows = scanner.nextInt();
+                        System.out.print("Enter number of columns: ");
+                        int cols = scanner.nextInt();
+                        hall = new Hall(rows, cols);
+                    } else {
+                        System.out.println("Hall is already exists.");
+                    }
                     break;
                 case 2:
                     if (hall != null) hall.bookSeat();
